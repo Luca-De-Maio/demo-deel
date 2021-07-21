@@ -1,0 +1,11 @@
+{
+  "email": "demo123@demo.com",
+  "password": "123456789#Demo",
+  "body": "Fixtures are a great way to mock data for responses to routes",
+  "contractName" : "Luca contract",
+  "scope" : "QA engineer scope",
+  "currency" : "gbp{enter}",
+  "clause" : "lorem",
+  "country" : "United States{enter}",
+  "state" : "Colorado{enter}"
+}

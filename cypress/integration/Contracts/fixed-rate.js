@@ -3,10 +3,18 @@
 
 describe('Entering Deel dev web page', () => {
 
+  beforeEach(function () {
+    cy.fixture("data").as("data")
+  })
+
   it('Log in ', () => {
     cy.visit('https://dev.deel.wtf/login')
-    cy.get('[name="email"]').type("demaio.martin@gmail.com")
-    cy.get('[name="password"]').type("156194Lu#1")
+
+    cy.get("@data").then((data) => {
+      cy.get('[name="email"]').type(data.email)
+      cy.get('[name="password"]').type(data.password)
+    })
+
     cy.get('[type=submit]').click()
   })
 
@@ -17,8 +25,10 @@ describe('Entering Deel dev web page', () => {
   })
 
   it('General info', () => {
-    cy.get('[name="name"]').type("Luca contract")
-    cy.get('[name="scope"]').type("QA engineer scoper")
+    cy.get("@data").then((data) => {
+      cy.get('[name="name"]').type(data.contractName)
+      cy.get('[name="scope"]').type(data.scope)
+    })
     cy.get('.chevron > .icon > svg').click()
     cy.xpath('//button[contains(concat(\' \', @class, \' \'), \'react-calendar__tile--active\')]/preceding-sibling::*[1]').click()
     cy.get('[type="submit"]').click()
@@ -26,9 +36,11 @@ describe('Entering Deel dev web page', () => {
 
   it('Payment details', () => {
     cy.get("input[name='rate']").type("1000")
-    cy.xpath("//div[contains(text(),'USD - US Dollar')]").type("gbp{enter}")
-    cy.xpath("//div[contains(text(),'Month')]").click()
-    cy.xpath("//div[contains(text(),'Week')]").click()
+    cy.get("@data").then((data) => {
+      cy.xpath("//div[contains(text(),'USD - US Dollar')]").type(data.currency)
+      cy.xpath("//div[contains(text(),'Month')]").click()
+      cy.xpath("//div[contains(text(),'Week')]").click()
+    })
     cy.get('[type="submit"]').click()
   })
 
@@ -38,13 +50,18 @@ describe('Entering Deel dev web page', () => {
 
   it('Extras', () => {
     cy.xpath("//div[contains(text(),'add a special clause')]").click()
-    cy.get("[class='textarea-container']").click().type("lorem")
+    cy.get("@data").then((data) => {
+      cy.get("[class='textarea-container']").click().type(data.clause)
+    })
     cy.get('[theme="primary"]').click()
   })
 
   it('Compliance', () => {
-    cy.get('.select__value-container').click().type("United States{enter}")
-    cy.get('.select__placeholder').click().type("Colorado{enter}")
+    cy.get("@data").then((data) => {
+      cy.get('.select__value-container').click().type(data.country)
+      cy.get('.select__placeholder').click().type(data.state)
+    })
+
     cy.get('[theme="primary"]').click()
   })
 })
