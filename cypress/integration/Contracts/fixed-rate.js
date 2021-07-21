@@ -1,6 +1,5 @@
 /// <reference types="cypress" />
 
-
 describe('Entering Deel dev web page', () => {
 
   beforeEach(function () {
@@ -19,7 +18,7 @@ describe('Entering Deel dev web page', () => {
   })
 
   it('Select Contract', () => {
-    cy.get('.button-close').wait(5000).click()
+    cy.get('.button-close',{timeout:5000}).click()
     cy.get('[href="/create"]').click()
     cy.get('[href="/create/fixed"]').click()
   })
